@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="124dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center|start"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/shape_shimmer_schedule" />
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center|start"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_shimmer_schedule" />
+
+    <View
+        android:layout_width="256dp"
+        android:layout_height="14dp"
+        android:layout_gravity="center|start"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_shimmer_schedule" />
+</LinearLayout>

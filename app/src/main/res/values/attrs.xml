@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Segmented progress bar -->
+<resources>
+    <declare-styleable name="ViewMyScheduleButton">
+        <attr name="android:enabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="WeekCalendar">
+        <attr name="weekDaysCount" format="integer" />
+        <attr name="sundayIsFirst" format="boolean" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fullDayScheduleRecycler"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/cup"/>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:shimmer_repeat_delay="@integer/material_motion_duration_short_1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:enabled="false"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/layout_subject_schedule_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp" />
+
+                <include
+                    layout="@layout/layout_subject_schedule_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp" />
+
+                <include
+                    layout="@layout/layout_subject_schedule_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp" />
+
+                <include
+                    layout="@layout/layout_subject_schedule_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</FrameLayout>
