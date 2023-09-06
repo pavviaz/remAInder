@@ -14,7 +14,8 @@
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/cup"/>
+        android:src="@drawable/cup"
+        android:importantForAccessibility="no" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
@@ -37,22 +38,22 @@
                 android:orientation="vertical">
 
                 <include
-                    layout="@layout/layout_subject_schedule_shimmer"
+                    layout="@layout/list_item_task_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="128dp" />
 
                 <include
-                    layout="@layout/layout_subject_schedule_shimmer"
+                    layout="@layout/list_item_task_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="128dp" />
 
                 <include
-                    layout="@layout/layout_subject_schedule_shimmer"
+                    layout="@layout/list_item_task_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="128dp" />
 
                 <include
-                    layout="@layout/layout_subject_schedule_shimmer"
+                    layout="@layout/list_item_task_shimmer"
                     android:layout_width="match_parent"
                     android:layout_height="128dp" />
             </LinearLayout>

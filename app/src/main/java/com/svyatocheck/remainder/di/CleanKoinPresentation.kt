@@ -1,5 +1,6 @@
 package com.svyatocheck.remainder.di
 
+import com.svyatocheck.remainder.presentation.recorder.RecorderViewModel
 import com.svyatocheck.remainder.presentation.schedule.week.ScheduleShimmerViewModel
 import com.svyatocheck.remainder.presentation.schedule.week.ScheduleWeekViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,5 +20,14 @@ val scheduleWeekPresentationModule = module {
         ScheduleShimmerViewModel()
     }
 
+}
+
+val recorderPresentationModule = module {
+
+    viewModel {
+        RecorderViewModel(
+//            audioSender = get()
+        )
+    }
 
 }

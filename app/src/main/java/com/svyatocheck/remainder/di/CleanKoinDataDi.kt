@@ -12,3 +12,14 @@ val scheduleWeekDataModule = module {
 //        ScheduleRepositoryImpl(remoteStorage = get())
 //    }
 }
+
+val recorderDataModule = module {
+
+//    single<IScheduleRemote> {
+//        ScheduleRemoteImpl()
+//    }
+//
+//    single<IScheduleRepository> {
+//        ScheduleRepositoryImpl(remoteStorage = get())
+//    }
+}

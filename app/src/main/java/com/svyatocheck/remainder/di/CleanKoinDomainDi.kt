@@ -9,3 +9,11 @@ val scheduleWeekDomainModule = module {
 //    }
 
 }
+
+val recorderDomainModule = module {
+
+//    factory {
+//        GetRemoteTasks(repository = get())
+//    }
+
+}

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.feature_schedule.presentation.utills.RequestStateStatus
-import com.svyatocheck.remainder.domain.usecases.GetRemoteTasks
 import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay

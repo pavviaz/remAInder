@@ -2,6 +2,9 @@ package com.svyatocheck.remainder
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.svyatocheck.remainder.di.recorderDataModule
+import com.svyatocheck.remainder.di.recorderDomainModule
+import com.svyatocheck.remainder.di.recorderPresentationModule
 import com.svyatocheck.remainder.di.scheduleWeekDataModule
 import com.svyatocheck.remainder.di.scheduleWeekDomainModule
 import com.svyatocheck.remainder.di.scheduleWeekPresentationModule
@@ -25,6 +28,14 @@ class MainActivity : AppCompatActivity() {
                         scheduleWeekPresentationModule,
                         scheduleWeekDomainModule,
                         scheduleWeekDataModule
+                    )
+                )
+
+                modules(
+                    listOf(
+                        recorderPresentationModule,
+                        recorderDomainModule,
+                        recorderDataModule
                     )
                 )
             }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
@@ -57,6 +58,12 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             scheduleViewModel.loadSchedule()
         } else {
             showWarningMessage("Нет подключения к интернету")
+        }
+
+        binding.floatingBtn.setOnClickListener{
+            findNavController().navigate(
+                R.id.action_scheduleMainFragment_to_fragmentRecorder
+            )
         }
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:bottomLeftRadius="@dimen/toolbar_corner_radius"
-        android:bottomRightRadius="@dimen/toolbar_corner_radius"/>
+    <corners android:radius="@dimen/text_field_radius"/>
     <solid android:color="?colorContainer"/>
 </shape>

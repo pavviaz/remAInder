@@ -31,5 +31,7 @@
         <item name="colorContainer">#FFFFFF</item>
 
         <item name="android:statusBarColor">#000000</item>
+
+        <item name="android:textColorPrimary">#000</item>
     </style>
 </resources>
