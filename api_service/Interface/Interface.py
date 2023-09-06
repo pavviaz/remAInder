@@ -2,12 +2,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class ModelInterface:
-    def __init__(self, session: AsyncSession):
-        self.session = session
+    def __init__(self, async_session: AsyncSession):
+        self.async_session = async_session
 
     async def create_execute(self, stmt, values=None):
         try:
-            await self.session.execute(stmt, values)
-            await self.session.commit()
+            await self.async_session.execute(stmt, values)
+            await self.async_session.commit()
         except:
-            await self.session.rollback()
+            await self.async_session.rollback()
+            await self.async_session.close()

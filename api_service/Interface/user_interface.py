@@ -1,7 +1,7 @@
-from api_service.Interface.Interface import ModelRepository
+from api_service.interface.interface import ModelInterface
 
 
-class UserInterface(ModelRepository):
+class UserInterface(ModelInterface):
 
     async def get(self):
         ...
