@@ -24,9 +24,9 @@ services:
   api_service:
     container_name: api_service
     image: remainder:latest
-#    build:
-#      context: ..
-#      dockerfile: api_service/Dockerfile
+    build:
+      context: ..
+      dockerfile: api_service/Dockerfile
     volumes:
       - ./:/code
     command: bash -c 'python /code/start.py'
