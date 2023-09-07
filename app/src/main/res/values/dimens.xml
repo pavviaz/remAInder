@@ -2,4 +2,5 @@
 <resources>
     <dimen name="toolbar_corner_radius">64dp</dimen>
     <dimen name="text_field_radius">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

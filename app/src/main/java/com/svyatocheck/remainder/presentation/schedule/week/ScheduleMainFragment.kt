@@ -1,8 +1,11 @@
 package com.svyatocheck.remainder.presentation.schedule.week
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,9 +15,9 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.R
-import com.svyatocheck.remainder.core.Network
 import com.svyatocheck.remainder.databinding.FragmentScheduleMainBinding
 import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
+import com.svyatocheck.remainder.presentation.recorder.REQUEST_PERMISSION_CODE
 import com.svyatocheck.remainder.presentation.schedule.adapters.CalendarClassicAdapter
 import com.svyatocheck.remainder.presentation.schedule.adapters.SchedulePagerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,6 +33,13 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     // pager loading animation model
     private val shimmerModel: ScheduleShimmerViewModel by viewModel()
 
+    // send schedule to pager
+    private val calendarViewModel: CalendarViewModel by viewModel()
+
+    private var permissions = arrayOf(
+        Manifest.permission.RECORD_AUDIO,
+    )
+
     // days adapters
     private lateinit var calendarAdapter: CalendarClassicAdapter
     private lateinit var schedulePagerAdapter: SchedulePagerAdapter
@@ -37,30 +47,43 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     // sync lists of days and dates
     private val pageChangeCallback by lazy {
         object : ViewPager2.OnPageChangeCallback() {
-
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                calendarViewModel.setPosition(position)
                 scheduleViewModel.setSelectedPosition(position)
+
+                scheduleViewModel.loadSchedule(position)
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        checkPermissions()
         initView()
+    }
+
+    private fun checkPermissions() {
+        val mic = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            permissions[0]
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!mic) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissions,
+                REQUEST_PERMISSION_CODE
+            )
+        }
     }
 
     private fun initView() {
         setUpAdapter()
         setupViewModels()
 
-        if (Network.isNetworkAvailable(context)) {
-            scheduleViewModel.loadSchedule()
-        } else {
-            showWarningMessage("Нет подключения к интернету")
-        }
-
-        binding.floatingBtn.setOnClickListener{
+        binding.floatingBtn.setOnClickListener {
             findNavController().navigate(
                 R.id.action_scheduleMainFragment_to_fragmentRecorder
             )
@@ -73,13 +96,15 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     private fun setUpAdapter() {
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerViewCalendar)
-        calendarAdapter = CalendarClassicAdapter(object:CalendarClassicAdapter.onClickListener {
+        calendarAdapter = CalendarClassicAdapter(object : CalendarClassicAdapter.onClickListener {
             override fun onClick(calendarDateModel: CalendarWeekDay, position: Int) {
+                calendarViewModel.setPosition(position)
                 binding.viewPagerScheduleScreen.setCurrentItem(position, true)
             }
         })
 
-        binding.recyclerViewCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewCalendar.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewCalendar.adapter = calendarAdapter
 
         scheduleViewModel.calendarWeekDay.observe(viewLifecycleOwner) {
@@ -90,21 +115,33 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             binding.viewPagerScheduleScreen.registerOnPageChangeCallback(pageChangeCallback)
         }
 
-        scheduleViewModel.selectedPosition.observe(viewLifecycleOwner){
+        scheduleViewModel.selectedPosition.observe(viewLifecycleOwner) {
             calendarAdapter.setSelectedItem(it)
 
             binding.recyclerViewCalendar.scrollToPosition(it)
             binding.viewPagerScheduleScreen.currentItem = it
+            calendarViewModel.setPosition(it)
+        }
+
+        scheduleViewModel.scheduleList.observe(viewLifecycleOwner){
+            calendarViewModel.sendTasks(it)
         }
     }
 
     private fun setupViewModels() {
-        scheduleViewModel.scheduleLoadingStatus.observe(viewLifecycleOwner){
+        scheduleViewModel.scheduleLoadingStatus.observe(viewLifecycleOwner) {
             when (it) {
-                RequestStateStatus.DONE -> {hideSkeletonsProgress()}
-                RequestStateStatus.LOADING -> {showSkeletonsProgress()}
+                RequestStateStatus.DONE -> {
+                    hideSkeletonsProgress()
+                }
+
+                RequestStateStatus.LOADING -> {
+                    showSkeletonsProgress()
+                }
+
                 else -> {
                     showWarningMessage("Ошибка во время загрузки!")
+                    showSkeletonsProgress()
                 }
             }
         }

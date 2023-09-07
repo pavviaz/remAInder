@@ -27,26 +27,28 @@ class RecorderViewModel(
 
     // creating a variable for media recorder object class.
     private var mRecorder: AudioRecord? = null
-    private var isReading: Boolean = false
+    private var isRecording: Boolean = false
     private var myBufferSize = 10240
+
+    lateinit var filepath: String
 
     // byte array for audio record
     private val byteArrayOutputStream by lazy { ByteArrayOutputStream() }
 
-    private fun makeByteArray() {
+    private fun makeByteArray(filepath: String) {
         val handler = CoroutineExceptionHandler { _, exception ->
             println("CoroutineExceptionHandler got $exception")
         }
 
         viewModelScope.launch(handler) {
-            isReading = true
+            isRecording = true
             withContext(Dispatchers.IO) {
                 if (mRecorder == null) return@withContext
 
                 val myBuffer = ByteArray(myBufferSize)
                 var readCount: Int
                 var totalCount = 0
-                while (isReading) {
+                while (isRecording) {
                     readCount = mRecorder!!.read(myBuffer, 0, myBufferSize)
                     totalCount += readCount
                     Log.d(
@@ -54,10 +56,10 @@ class RecorderViewModel(
                                 + totalCount
                     )
                 }
-
             }
         }
     }
+
     private fun sendAudio() {
         val handler = CoroutineExceptionHandler { _, exception ->
             _networkingStatus.value = RequestStateStatus.ERROR
@@ -65,7 +67,7 @@ class RecorderViewModel(
         }
 
         viewModelScope.launch(handler) {
-            val flag = withContext(Dispatchers.Default) {
+            val flag = withContext(Dispatchers.IO) {
                 //audioSender.sendAudio(byteArrayOutputStream.toByteArray())
                 _networkingStatus.postValue(RequestStateStatus.LOADING)
                 delay(500)
@@ -75,8 +77,9 @@ class RecorderViewModel(
             _networkingStatus.value = RequestStateStatus.DONE
         }
     }
+
     @SuppressLint("MissingPermission")
-    fun startRecording() {
+    fun startRecording(filepath: String) {
         val sampleRate = 16000
         val channelConfig = AudioFormat.CHANNEL_IN_MONO
         val audioFormat = AudioFormat.ENCODING_PCM_16BIT
@@ -98,10 +101,11 @@ class RecorderViewModel(
         )
 
         mRecorder!!.startRecording()
-        makeByteArray()
+        makeByteArray(filepath)
     }
+
     fun stopRecording() {
-        isReading = false
+        isRecording = false
         mRecorder?.apply {
             stop()
             release()
@@ -111,9 +115,10 @@ class RecorderViewModel(
         sendAudio()
         byteArrayOutputStream.flush()
     }
+
     override fun onCleared() {
         super.onCleared()
-        isReading = false
+        isRecording = false
         mRecorder?.release()
         mRecorder = null
     }

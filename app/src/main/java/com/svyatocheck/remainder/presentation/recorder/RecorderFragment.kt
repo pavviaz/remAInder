@@ -30,6 +30,8 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
     private var permissions = arrayOf(RECORD_AUDIO)
     private var permissionGranted = false
 
+    private lateinit var filepath : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // check if we have the permission to record an audio
@@ -47,6 +49,8 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
             requestPermission()
 
         getRequestedCode()
+
+        filepath = "${requireActivity().externalCacheDir?.absolutePath}/"
 
         initView()
     }
@@ -89,7 +93,6 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
                     else -> {}
                 }
             }
-
             descriptionTv.text = getString(R.string.string_init_recorder_status)
         }
         startRecording()
@@ -103,7 +106,7 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
             return
         }
         binding.descriptionTv.text = getString(R.string.string_speak_status_message)
-        recorderViewModel.startRecording()
+        recorderViewModel.startRecording(filepath)
     }
 
 

@@ -6,5 +6,7 @@
     <string name="string_send_button_title">Send.</string>
     <string name="string_popup_fragment">Return to previous fragment</string>
     <string name="string_go_to_recorder_fragment">Go to recorder fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

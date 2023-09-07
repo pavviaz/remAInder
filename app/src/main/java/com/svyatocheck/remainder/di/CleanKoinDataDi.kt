@@ -1,5 +1,7 @@
 package com.svyatocheck.remainder.di
 
+import com.svyatocheck.remainder.data.repository.ScheduleRepositoryImpl
+import com.svyatocheck.remainder.domain.repository.IScheduleRepository
 import org.koin.dsl.module
 
 val scheduleWeekDataModule = module {
@@ -8,9 +10,11 @@ val scheduleWeekDataModule = module {
 //        ScheduleRemoteImpl()
 //    }
 //
-//    single<IScheduleRepository> {
-//        ScheduleRepositoryImpl(remoteStorage = get())
-//    }
+    single<IScheduleRepository> {
+        ScheduleRepositoryImpl(
+            //remoteStorage = get()
+        )
+    }
 }
 
 val recorderDataModule = module {

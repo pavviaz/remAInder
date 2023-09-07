@@ -70,6 +70,7 @@ dependencies {
     // ViewBinding
     implementation("com.github.kirich1409:viewbindingpropertydelegate:1.5.3")
     implementation("androidx.databinding:viewbinding:8.1.1")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     // Tests
     testImplementation("junit:junit:4.13.2")

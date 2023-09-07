@@ -1,19 +1,23 @@
 package com.svyatocheck.remainder.presentation.schedule.week
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.feature_schedule.presentation.utills.RequestStateStatus
+import com.svyatocheck.remainder.domain.usecases.GetRemoteTasksUseCase
 import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
+import com.svyatocheck.remainder.presentation.models.ScheduleItem
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
-import kotlin.system.measureTimeMillis
 
 class ScheduleWeekViewModel(
-//    private val loadRemoteTasks: GetRemoteTasks
+    private val loadRemoteTasks: GetRemoteTasksUseCase
 ) : ViewModel() {
 
     // current date
@@ -27,19 +31,13 @@ class ScheduleWeekViewModel(
     private val _selectedPosition = MutableLiveData<Int>()
     var selectedPosition: LiveData<Int> = _selectedPosition
 
-//    // schedule list result
-//    private val _scheduleList = MutableLiveData<List<ScheduleDailyItem>>()
-//    val scheduleList: LiveData<List<ScheduleDailyItem>> = _scheduleList
+    // schedule list result
+    private val _scheduleList = MutableLiveData<List<ScheduleItem>>()
+    val scheduleList: LiveData<List<ScheduleItem>> = _scheduleList
 
     // status
     private val _scheduleLoadingStatus = MutableLiveData<RequestStateStatus>()
     var scheduleLoadingStatus: LiveData<RequestStateStatus> = _scheduleLoadingStatus
-
-    private val _scheduleLocalLoadingStatus = MutableLiveData<RequestStateStatus>()
-    var scheduleLocalLoadingStatus: LiveData<RequestStateStatus> = _scheduleLocalLoadingStatus
-
-    private val _innerOperationsStatus = MutableLiveData<RequestStateStatus>()
-    var innerOperationStatus: LiveData<RequestStateStatus> = _innerOperationsStatus
 
     init {
         initCalendarRange()
@@ -49,30 +47,30 @@ class ScheduleWeekViewModel(
         val calendarList = ArrayList<CalendarWeekDay>()
 
         // previous month
-        val toolCalendar = calendar.clone() as Calendar
-        toolCalendar.add(Calendar.MONTH, -1)
+        val tempCalendar = calendar.clone() as Calendar
+        tempCalendar.add(Calendar.MONTH, -1)
 
         // current month + previous month
-        val monthLength = toolCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) +
+        val monthLength = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) +
                 calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
         // get range of dates from prev.month to next month
         while (calendarList.size < monthLength) {
-            if (toolCalendar.time == calendar.time) {
+            if (tempCalendar.time == calendar.time) {
                 // if it's a current date, select it
-                calendarList.add(CalendarWeekDay(toolCalendar.time, isSelected = true))
+                calendarList.add(CalendarWeekDay(tempCalendar.time, isSelected = true))
                 _selectedPosition.value = calendarList.size - 1
             } else {
-                calendarList.add(CalendarWeekDay(toolCalendar.time))
+                calendarList.add(CalendarWeekDay(tempCalendar.time))
             }
             // next date
-            toolCalendar.add(Calendar.DAY_OF_MONTH, 1)
+            tempCalendar.add(Calendar.DAY_OF_MONTH, 1)
         }
         // send new range of dates to the main fragment
         _calendarWeekDay.value = calendarList
     }
 
-    fun loadSchedule() {
+    fun loadSchedule(position: Int) {
         val handler = CoroutineExceptionHandler { _, exception ->
             println("CoroutineExceptionHandler got $exception")
             // show message about error
@@ -80,27 +78,17 @@ class ScheduleWeekViewModel(
         }
 
         viewModelScope.launch(handler) {
+            val selectedDate = _calendarWeekDay.value!![position]
             _scheduleLoadingStatus.value = RequestStateStatus.LOADING
-            val time = measureTimeMillis {
-                delay(1500)
-            }
 
-            if (time < 1000)
-                delay(1000 - time)
+            _scheduleList.value = withContext(Dispatchers.IO) {
+                delay(500)
+                Log.d("LOADING", "LOADING, ${_selectedPosition.value}")
+                loadRemoteTasks.getRemoteTasks(selectedDate.date)
+            } ?: emptyList()
 
-//            _scheduleList.value = result.await()
             _scheduleLoadingStatus.value = RequestStateStatus.DONE
         }
-    }
-
-    private suspend fun loadRemoteTasks() {
-//        scheduleParamModel: ScheduleParametersDomainModel
-//    ): List<ScheduleDailyItem> {
-//        return withContext(Dispatchers.IO) {
-//            return@withContext loadRemoteTasks.execute(
-//                scheduleParamModel
-//            )
-//        }
     }
 
     fun resetAction() {

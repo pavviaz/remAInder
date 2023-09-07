@@ -1,8 +1,8 @@
 package com.svyatocheck.remainder.domain.repository
 
-import com.svyatocheck.remainder.domain.models.ScheduleDomainQuery
-import com.svyatocheck.remainder.domain.models.ScheduleResultItem
+import com.svyatocheck.remainder.presentation.models.ScheduleItem
+import java.util.Date
 
 interface IScheduleRepository {
-    suspend fun getGroupSchedule(params: ScheduleDomainQuery) : List<ScheduleResultItem>
+    suspend fun getGroupSchedule(params: Date) : List<ScheduleItem>
 }
