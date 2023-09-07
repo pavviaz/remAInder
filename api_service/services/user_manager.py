@@ -3,8 +3,8 @@ from typing import Optional
 
 from fastapi import Request
 from fastapi_users import BaseUserManager, UUIDIDMixin
-from api_service.models.user import User
-from api_service.settings import api_settings
+from models.user import User
+from settings import api_settings
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
