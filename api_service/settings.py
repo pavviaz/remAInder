@@ -1,5 +1,4 @@
 import os
-from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings
 
 
@@ -14,10 +13,10 @@ class ApiSettings(BaseSettings):
     DATETIME: str = os.environ.get('DATETIME', '%Y-%m-%dT%H:%M:%S.%f%z')
     URL: str = os.environ.get('URL', '')
 
-    POSTGRES_CONNECT: PostgresDsn | str = os.environ['POSTGRES_CONNECT']
+    POSTGRES_CONNECT: str = os.environ['POSTGRES_CONNECT']
     SCHEMES: list = ('auth', 'tasks', 'logger')
-    POOL: str = os.environ.get('POOL', 50)
-    MAX_OVER: str = os.environ.get('MAX_OVER', 100)
+    POOL: int = os.environ.get('POOL', 50)
+    MAX_OVER: int = os.environ.get('MAX_OVER', 100)
 
     ORIGINS: list = ['*', 'http:/localhost']
     ALLOW_CREDENTIALS: bool = True

@@ -1,8 +1,9 @@
-from settings import api_settings
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+from routers.routers import api_router
+from settings import api_settings
 
 api_service = FastAPI(
     title=api_settings.TITLE,
@@ -21,3 +22,5 @@ api_service.add_middleware(
 )
 
 api_service.mount(api_settings.URL + '/static', StaticFiles(directory=api_settings.STATIC_FILES), name='static')
+
+api_service.include_router(api_router)

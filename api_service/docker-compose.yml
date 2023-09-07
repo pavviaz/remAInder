@@ -14,7 +14,7 @@ services:
     ports:
       - '5432:5432'
   redis:
-    image: redis:7-alpines
+    image: redis:latest
     restart: always
     command: redis-server --save 60 1 --loglevel warning
     volumes:

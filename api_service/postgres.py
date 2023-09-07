@@ -1,9 +1,8 @@
 from settings import api_settings
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
 postgres_engine = create_async_engine(
-    api_settings.POSTGRES_URL,
+    api_settings.POSTGRES_CONNECT,
     pool_pre_ping=True,
     pool_recycle=60 * 60,
     pool_size=api_settings.POOL,
@@ -12,14 +11,14 @@ postgres_engine = create_async_engine(
 )
 
 
-def get_async_session():
+def get_async_sessionmaker():
     return async_sessionmaker(
         postgres_engine, class_=AsyncSession, expire_on_commit=False,
     )
 
 
-async def session_to_receive() -> AsyncSession:
-    session = get_async_session()
+async def get_async_session() -> AsyncSession:
+    session = get_async_sessionmaker()
     async with session() as session_connect:
         try:
             yield session_connect

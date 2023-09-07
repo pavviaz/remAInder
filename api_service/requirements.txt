@@ -13,3 +13,5 @@ fastapi_events
 python-jose[cryptography]
 passlib
 pydantic-settings
+fastapi_users
+fastapi-users[sqlalchemy]
