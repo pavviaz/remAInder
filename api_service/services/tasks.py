@@ -7,12 +7,12 @@ from asyncache import cached
 from fastapi import UploadFile
 from pydantic import parse_obj_as
 
-from interface.task_interface import TaskInterface
-from schemas.tasks import TaskModel, TaskRead, TaskCreate
+from api_service.interface.task_interface import TaskInterface
+from api_service.schemas.tasks import TaskModel, TaskRead, TaskCreate
 
-from schemas.tasks import TaskId
+from api_service.schemas.tasks import TaskId
 
-from schemas.tasks import TaskUpdate
+from api_service.schemas.tasks import TaskUpdate
 # import cachetools
 # from redis_cache import redis
 

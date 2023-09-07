@@ -1,12 +1,12 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from interface.interface import ModelInterface
+from api_service.interface.interface import ModelInterface
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from models.user import User
-from postgres import get_async_session
-from services.user_manager import UserManager
+from api_service.models.user import User
+from api_service.postgres import get_async_session
+from api_service.services.user_manager import UserManager
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
