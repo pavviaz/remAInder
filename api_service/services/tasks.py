@@ -2,6 +2,8 @@ from datetime import date as date_dt
 from typing import Type
 from uuid import UUID
 
+from CacheToolsUtils import RedisCache
+from asyncache import cached
 from fastapi import UploadFile
 from pydantic import parse_obj_as
 
@@ -11,12 +13,13 @@ from schemas.tasks import TaskModel, TaskRead, TaskCreate
 from schemas.tasks import TaskId
 
 from schemas.tasks import TaskUpdate
+# import cachetools
+# from redis_cache import redis
 
 
 class TaskService(TaskInterface):
 
     async def get(self, id: UUID, model: Type[TaskModel] | Type[TaskRead] = Type[TaskModel]) -> TaskModel | TaskRead:
-        print(await self._get(id))
         task = model.from_orm(await self._get(id))
         return task
 

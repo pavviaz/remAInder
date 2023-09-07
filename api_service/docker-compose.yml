@@ -23,7 +23,7 @@ services:
       - '5000:5001'
   api_service:
     container_name: api_service
-    image: api_reminder:0.0
+    image: remainder:latest
     build:
       context: ..
       dockerfile: api_service/Dockerfile
