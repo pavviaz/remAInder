@@ -7,7 +7,7 @@ from asyncache import cached
 from fastapi import UploadFile
 from pydantic import parse_obj_as
 
-from interface.task_interface import TaskInterface
+from base_interface.task_interface import TaskInterface
 from schemas.tasks import TaskModel, TaskRead, TaskCreate
 
 from schemas.tasks import TaskId
