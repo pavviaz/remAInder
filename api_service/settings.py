@@ -28,7 +28,7 @@ class ApiSettings(BaseSettings):
     REDIS_CONNECT: str = os.environ['REDIS_CONNECT']
     REDIS_MAX: int = int(os.getenv('REDIS_MAX', 100))
 
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES:', 30))
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES:', 60 * 60 * 24 * 7))
     ALGORITHM: str = os.environ.get('ALGORITHM', '"HS256"')
     SECURITY_KEY: str = os.environ['SECURITY_KEY']
 

@@ -4,6 +4,8 @@ from fastapi_users.authentication import (
     AuthenticationBackend, BearerTransport, JWTStrategy
 )
 
+
+from fastapi.exceptions import HTTPException
 from models.user import User
 from settings import api_settings
 
@@ -25,3 +27,9 @@ auth_backend = AuthenticationBackend(
 fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
 current_active_user = fastapi_users.current_user(active=True)
+
+
+async def validator_user_id(user_id):
+    current_user = await current_active_user()
+    if user_id != current_user.id:
+        raise HTTPException(status_code=402)
