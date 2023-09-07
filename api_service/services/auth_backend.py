@@ -9,7 +9,7 @@ from fastapi.exceptions import HTTPException
 from models.user import User
 from settings import api_settings
 
-from interface.user_interface import get_user_manager
+from ..interface.user_interface import get_user_manager
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
