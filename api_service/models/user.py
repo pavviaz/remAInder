@@ -1,8 +1,8 @@
-from models import Base
+from api_service.models import Base
 from sqlalchemy import Column, Text, UniqueConstraint
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from sqlalchemy.orm import relationship
-from models.tasks import Task
+from api_service.models.tasks import Task
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
