@@ -404,3 +404,5 @@ FodyWeavers.xsd
 *.venv
 *.idea
 /idea/
+=======
+.env
