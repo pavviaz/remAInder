@@ -3,11 +3,11 @@ from uuid import UUID
 
 from sqlalchemy import select, insert, update, delete
 
-from interface.interface import ModelInterface
-from models.tasks import Task
-from schemas.tasks import TaskModel, TaskRead
+from api_service.interface.interface import ModelInterface
+from api_service.models.tasks import Task
+from api_service.schemas.tasks import TaskModel
 
-from schemas.tasks import TaskUpdate
+from api_service.schemas.tasks import TaskUpdate
 
 
 class TaskInterface(ModelInterface):

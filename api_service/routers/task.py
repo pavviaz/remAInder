@@ -5,12 +5,12 @@ from fastapi import APIRouter, Path, Depends, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from postgres import get_async_session
-from schemas.tasks import TaskRead, TaskCreate, TaskUpdate
-from services.tasks import TaskService
+from api_service.schemas.tasks import TaskRead, TaskCreate, TaskUpdate
+from api_service.services.tasks import TaskService
 
 from fastapi.exceptions import HTTPException
-from models.user import User
-from services.auth_backend import current_active_user
+from api_service.models.user import User
+from api_service.services.auth_backend import current_active_user
 
 # from redis_cache import redis_cache
 

@@ -6,8 +6,8 @@ from fastapi_users.authentication import (
 
 
 from fastapi.exceptions import HTTPException
-from models.user import User
-from settings import api_settings
+from api_service.models.user import User
+from api_service.settings import api_settings
 
 from api_service.interface.user_interface import get_user_manager
 
