@@ -20,11 +20,11 @@ api_router.include_router(
     fastapi_users.get_verify_router(UserModel),
     prefix="/auth",
 )
-api_router.include_router(
-    fastapi_users.get_users_router(UserModel, UserUpdate),
-    prefix="/users",
-    tags=["users"],
-)
+# api_router.include_router(
+#     fastapi_users.get_users_router(UserModel, UserUpdate),
+#     prefix="/users",
+#     tags=["users"],
+# )
 
 
 @api_router.get("/authenticated-route")
