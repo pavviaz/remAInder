@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from base_interface.interface import ModelInterface
+from base_interface.base_interface import ModelInterface
 from fastapi_users.db import SQLAlchemyUserDatabase
 
 from models.user import User
