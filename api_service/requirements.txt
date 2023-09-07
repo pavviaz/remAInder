@@ -15,3 +15,7 @@ passlib
 pydantic-settings
 fastapi_users
 fastapi-users[sqlalchemy]
+asyncache
+cachetools
+CacheToolsUtils
+asyncio-redis
