@@ -2,31 +2,16 @@ version: '2.3'
 
 services:
   neural_nets:
+    restart: always
     container_name: remainder_models
     mem_limit: 4G
     build:  
       context: ./models
       dockerfile: Dockerfile
     image: remainder_models:latest
-    environment:
-      REDIS_HOST: "broker:6379"
-      EMPTY_REDIS_OFFSET: 2
     volumes:
       - ./models:/models
-    command: python3 main.py
-    depends_on:
-      - broker
-
-  broker:
-    mem_limit: 100m
-    image: redis:6.2-alpine
-    environment:
-     - ALLOW_EMPTY_PASSWORD=yes
-    volumes: 
-      - cache:/data
-    ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning
+    command: python3 -u main.py
 
 volumes:
   cache:

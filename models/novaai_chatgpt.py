@@ -12,6 +12,7 @@ def get_output(prompt, model):
     try:
         response = novaai.ChatCompletion.create(
             model=model,
+            temperature = 0.1,
             messages=[{"role": "user", "content": prompt}],
         )
     except Exception as exc:

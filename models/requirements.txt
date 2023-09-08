@@ -1,6 +1,7 @@
+torch==1.12.1
 openai
-openai-whisper @ git+https://github.com/Blair-Johnson/batch-whisper.git@main
 numpy
 redis
 pydub
 python-dotenv
+transformers
