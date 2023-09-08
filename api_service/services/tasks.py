@@ -1,3 +1,4 @@
+import pickle
 import uuid
 from datetime import date as date_dt
 from typing import Type
@@ -39,7 +40,6 @@ class TaskService(TaskInterface):
         embedding = None  #TODO вызов расчета embedding
 
         task_id = await self._create(TaskModel(**task_to_create.dict()))
-        print(task_id)
         if not task_id:
             return None
         return TaskId(id=task_id)
@@ -48,7 +48,6 @@ class TaskService(TaskInterface):
         embeddings = None  # TODO вызов расчета embeddings для множества моделей
 
         tasks_to_create = parse_obj_as(list[TaskModel], tasks_to_create)
-
         task_id = await self._create_all(tasks_to_create)
         return task_id
 
@@ -59,7 +58,6 @@ class TaskService(TaskInterface):
         return model.from_orm(task)
 
     async def upload_audio(self, user_id, file: UploadFile):
-
-        # await redis.set(f'asr:{uuid.uuid4()}', {'user_id': user_id, 'req': file.file.read()})
+        await redis.set(f'asr:{uuid.uuid4()}', pickle.dumps({'user_id': user_id, 'req': file.file.read()}))
 
         return {'status': True}
