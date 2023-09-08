@@ -69,8 +69,7 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
             recorderViewModel.networkingStatus.observe(viewLifecycleOwner) {
                 when (it) {
                     RequestStateStatus.LOADING -> {
-                        binding.descriptionTv.text =
-                            getString(R.string.string_sending_audio_message)
+                        binding.descriptionTv.text = getString(R.string.string_sending_audio_message)
                         binding.loadingPlaceholder.visibility = View.VISIBLE
                         binding.sendAudioBtn.visibility = View.GONE
                     }
@@ -84,6 +83,7 @@ class FragmentRecorder : Fragment(R.layout.fragment_edit_task) {
                     }
 
                     RequestStateStatus.ERROR -> {
+                        parentFragmentManager.popBackStack()
                         Toast.makeText(
                             requireContext(),
                             "Unable to send audio this time :(", Toast.LENGTH_SHORT

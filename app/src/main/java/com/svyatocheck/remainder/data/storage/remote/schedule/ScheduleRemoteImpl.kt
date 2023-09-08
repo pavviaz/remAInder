@@ -1,7 +1,7 @@
 package com.svyatocheck.remainder.data.storage.remote.schedule
 
 import com.svyatocheck.remainder.data.storage.models.schedule.ScheduleDataParamModel
-import com.svyatocheck.remainder.data.storage.models.schedule.SerializableScheduleClassroom
+import com.svyatocheck.remainder.data.storage.models.schedule.SerializedTask
 import com.svyatocheck.remainder.data.storage.remote.RetrofitApiProvider
 
 class ScheduleRemoteImpl : IScheduleRemote {
@@ -12,7 +12,9 @@ class ScheduleRemoteImpl : IScheduleRemote {
 
     override suspend fun getRemoteSchedule(
         paramModel: ScheduleDataParamModel
-    ): List<List<SerializableScheduleClassroom?>?> {
-        return retrofit.getClassroomSchedule(paramModel.name, paramModel.offset)
+    ): List<SerializedTask?> {
+        return retrofit.getTasks(
+            paramModel.userId, paramModel.date
+        )
     }
 }

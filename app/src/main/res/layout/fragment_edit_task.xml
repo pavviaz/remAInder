@@ -10,7 +10,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="8dp"
-        android:background="@drawable/text_field_shape"
+        android:background="@drawable/shape_text_field"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/left_arrow"

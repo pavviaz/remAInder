@@ -9,10 +9,11 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class WavRecorder(path: String?) {
 
-    private val simpleDateFormat = SimpleDateFormat("yyyy_MM_DD_hh_mm_ss")
+    private val simpleDateFormat = SimpleDateFormat("yyyy_MM_DD_hh_mm_ss", Locale.GERMANY)
     private val date: String = simpleDateFormat.format(Date())
 
     private var filePath: String? = null
@@ -45,7 +46,7 @@ class WavRecorder(path: String?) {
             if (filePath != null) {
                 val data = ByteArray(bufferSize)
                 val path = getPath(tempRawFile)
-                val fileOutputStream = FileOutputStream(path) ?: return
+                val fileOutputStream = FileOutputStream(path)
                 var read: Int
                 while (isRecording) {
                     read = recorder!!.read(data, 0, bufferSize)
@@ -123,7 +124,7 @@ class WavRecorder(path: String?) {
         }
     }
 
-    private fun createWavFile(tempPath: String?, wavPath: String?): ByteArray? {
+    private fun createWavFile(tempPath: String?, wavPath: String?) {
         try {
             val fileInputStream = FileInputStream(tempPath)
             val fileOutputStream = FileOutputStream(wavPath)
@@ -138,13 +139,9 @@ class WavRecorder(path: String?) {
             }
             fileInputStream.close()
             fileOutputStream.close()
-
-            return data
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        return null
     }
 
     @SuppressLint("MissingPermission")
@@ -169,7 +166,7 @@ class WavRecorder(path: String?) {
         }
     }
 
-    fun stopRecording(): ByteArray? {
+    fun stopRecording(): String? {
         try {
             if (recorder != null) {
                 isRecording = false
@@ -179,7 +176,8 @@ class WavRecorder(path: String?) {
                 }
                 recorder!!.release()
                 recordingThread = null
-                return createWavFile(getPath(tempRawFile), getPath(tempWavFile))
+                createWavFile(getPath(tempRawFile), getPath(tempWavFile))
+                return getPath(tempWavFile)
             }
         } catch (e: Exception) {
             e.printStackTrace()

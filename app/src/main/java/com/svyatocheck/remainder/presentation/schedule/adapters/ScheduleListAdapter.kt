@@ -36,7 +36,7 @@ class ScheduleListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ScheduleItem, position: Int) {
             binding.itemClassName.text = item.title
-            binding.itemClassTime.text = item.date.time.toString()
+            binding.itemClassTime.text = item.date
         }
     }
 

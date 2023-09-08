@@ -20,7 +20,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     buildFeatures {
@@ -71,6 +74,8 @@ dependencies {
     implementation("com.github.kirich1409:viewbindingpropertydelegate:1.5.3")
     implementation("androidx.databinding:viewbinding:8.1.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     // Tests
     testImplementation("junit:junit:4.13.2")

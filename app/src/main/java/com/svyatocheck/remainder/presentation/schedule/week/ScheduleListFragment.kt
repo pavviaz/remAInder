@@ -56,19 +56,25 @@ class ScheduleListFragment : Fragment(R.layout.fragment_schedule_pager) {
                 true -> {
                     binding.shimmerLayout.visibility = View.VISIBLE
                     binding.placeholder.visibility = View.INVISIBLE
+                    binding.fullDayScheduleRecycler.visibility = View.INVISIBLE
                 }
 
                 else -> {
                     binding.shimmerLayout.visibility = View.GONE
-                    binding.placeholder.visibility = View.VISIBLE
                 }
             }
         }
 
         calendarViewModel.dailyTasks.observe(viewLifecycleOwner) {
             if (fragmentPosition == calendarViewModel.position.value) {
-                Log.d("SCHEDULE", "LOADED $it")
-                tasksAdapter.scheduleList = it.toMutableList()
+                if (it.isNotEmpty()) {
+                    tasksAdapter.scheduleList = it.toMutableList()
+                    binding.placeholder.visibility = View.GONE
+                    binding.fullDayScheduleRecycler.visibility = View.VISIBLE
+                } else {
+                    binding.placeholder.visibility = View.VISIBLE
+                    binding.fullDayScheduleRecycler.visibility = View.INVISIBLE
+                }
             }
         }
     }

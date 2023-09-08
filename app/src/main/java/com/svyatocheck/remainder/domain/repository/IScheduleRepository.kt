@@ -4,5 +4,5 @@ import com.svyatocheck.remainder.presentation.models.ScheduleItem
 import java.util.Date
 
 interface IScheduleRepository {
-    suspend fun getGroupSchedule(params: Date) : List<ScheduleItem>
+    suspend fun getGroupSchedule(date: Date) : List<ScheduleItem>
 }

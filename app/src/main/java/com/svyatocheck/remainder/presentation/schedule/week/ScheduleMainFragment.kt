@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,14 @@ import com.svyatocheck.remainder.presentation.recorder.REQUEST_PERMISSION_CODE
 import com.svyatocheck.remainder.presentation.schedule.adapters.CalendarClassicAdapter
 import com.svyatocheck.remainder.presentation.schedule.adapters.SchedulePagerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+fun Fragment.setupOnBackPressedCallback(block: () -> Unit) {
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = block.invoke()
+        }
+    )
+}
 
 class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
 
@@ -80,7 +89,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     }
 
     private fun initView() {
-        setUpAdapter()
+        setUpTasks()
         setupViewModels()
 
         binding.floatingBtn.setOnClickListener {
@@ -88,24 +97,15 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
                 R.id.action_scheduleMainFragment_to_fragmentRecorder
             )
         }
+
+        binding.swiperefresh.setOnRefreshListener {
+            val position = binding.viewPagerScheduleScreen.currentItem
+            scheduleViewModel.loadSchedule(position)
+            binding.swiperefresh.isRefreshing = false
+        }
     }
 
-    /**
-     * Setting up adapter for recyclerview
-     */
-    private fun setUpAdapter() {
-        val snapHelper: SnapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(binding.recyclerViewCalendar)
-        calendarAdapter = CalendarClassicAdapter(object : CalendarClassicAdapter.onClickListener {
-            override fun onClick(calendarDateModel: CalendarWeekDay, position: Int) {
-                calendarViewModel.setPosition(position)
-                binding.viewPagerScheduleScreen.setCurrentItem(position, true)
-            }
-        })
-
-        binding.recyclerViewCalendar.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewCalendar.adapter = calendarAdapter
+    private fun setupViewModels() {
 
         scheduleViewModel.calendarWeekDay.observe(viewLifecycleOwner) {
             calendarAdapter.list = it
@@ -123,12 +123,10 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             calendarViewModel.setPosition(it)
         }
 
-        scheduleViewModel.scheduleList.observe(viewLifecycleOwner){
+        scheduleViewModel.scheduleList.observe(viewLifecycleOwner) {
             calendarViewModel.sendTasks(it)
         }
-    }
 
-    private fun setupViewModels() {
         scheduleViewModel.scheduleLoadingStatus.observe(viewLifecycleOwner) {
             when (it) {
                 RequestStateStatus.DONE -> {
@@ -147,6 +145,22 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
         }
     }
 
+    /**
+     * Setting up adapter for recyclerview
+     */
+    private fun setUpTasks() {
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.recyclerViewCalendar)
+        calendarAdapter = CalendarClassicAdapter(object : CalendarClassicAdapter.onClickListener {
+            override fun onClick(calendarDateModel: CalendarWeekDay, position: Int) {
+                calendarViewModel.setPosition(position)
+                binding.viewPagerScheduleScreen.setCurrentItem(position, true)
+            }
+        })
+        binding.recyclerViewCalendar.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewCalendar.adapter = calendarAdapter
+    }
 
     private fun showWarningMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -159,4 +173,5 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     private fun hideSkeletonsProgress() {
         shimmerModel.sendMessage(false)
     }
+
 }

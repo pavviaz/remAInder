@@ -1,6 +1,5 @@
 package com.svyatocheck.remainder.presentation.schedule.week
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
 import com.svyatocheck.remainder.presentation.models.ScheduleItem
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
@@ -82,11 +80,8 @@ class ScheduleWeekViewModel(
             _scheduleLoadingStatus.value = RequestStateStatus.LOADING
 
             _scheduleList.value = withContext(Dispatchers.IO) {
-                delay(500)
-                Log.d("LOADING", "LOADING, ${_selectedPosition.value}")
                 loadRemoteTasks.getRemoteTasks(selectedDate.date)
             } ?: emptyList()
-
             _scheduleLoadingStatus.value = RequestStateStatus.DONE
         }
     }

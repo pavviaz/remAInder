@@ -2,9 +2,16 @@ package com.svyatocheck.remainder
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.svyatocheck.remainder.di.appModule
+import com.svyatocheck.remainder.di.authorizationDataModule
+import com.svyatocheck.remainder.di.authorizationDomainModule
+import com.svyatocheck.remainder.di.authorizationPresentationModule
 import com.svyatocheck.remainder.di.recorderDataModule
 import com.svyatocheck.remainder.di.recorderDomainModule
 import com.svyatocheck.remainder.di.recorderPresentationModule
+import com.svyatocheck.remainder.di.registrationDataModule
+import com.svyatocheck.remainder.di.registrationDomainModule
+import com.svyatocheck.remainder.di.registrationPresentationModule
 import com.svyatocheck.remainder.di.scheduleWeekDataModule
 import com.svyatocheck.remainder.di.scheduleWeekDomainModule
 import com.svyatocheck.remainder.di.scheduleWeekPresentationModule
@@ -36,6 +43,28 @@ class MainActivity : AppCompatActivity() {
                         recorderPresentationModule,
                         recorderDomainModule,
                         recorderDataModule
+                    )
+                )
+
+                modules(
+                    listOf(
+                        authorizationPresentationModule,
+                        authorizationDomainModule,
+                        authorizationDataModule
+                    )
+                )
+
+                modules(
+                    listOf(
+                        registrationPresentationModule,
+                        registrationDomainModule,
+                        registrationDataModule
+                    )
+                )
+
+                modules(
+                    listOf(
+                        appModule
                     )
                 )
             }

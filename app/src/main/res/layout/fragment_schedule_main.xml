@@ -21,30 +21,36 @@
             android:background="@drawable/toolbar_schedule_shape"
             app:layout_scrollFlags="scroll|enterAlways"
             app:title="Calendar"
-            app:titleTextAppearance="@style/CalendarTitleStyle"
-            app:titleCentered="true"/>
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/CalendarTitleStyle" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCalendar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="26dp" />
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerScheduleScreen"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerScheduleScreen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_mic"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/string_go_to_recorder_fragment" />
+        android:contentDescription="@string/string_go_to_recorder_fragment"
+        android:src="@drawable/ic_mic" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

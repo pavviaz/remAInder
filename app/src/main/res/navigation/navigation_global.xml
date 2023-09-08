@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_global"
-    app:startDestination="@id/scheduleMainFragment">
+    app:startDestination="@id/authorizationFragment">
 
     <fragment
         android:id="@+id/scheduleMainFragment"
         android:name="com.svyatocheck.remainder.presentation.schedule.week.ScheduleMainFragment"
-        android:label="ScheduleMainFragment" >
+        android:label="ScheduleMainFragment">
         <action
             android:id="@+id/action_scheduleMainFragment_to_fragmentRecorder"
             app:destination="@id/fragmentRecorder"
@@ -20,4 +21,38 @@
         android:id="@+id/fragmentRecorder"
         android:name="com.svyatocheck.remainder.presentation.recorder.FragmentRecorder"
         android:label="FragmentRecorder" />
+    <fragment
+        android:id="@+id/authorizationFragment"
+        android:name="com.svyatocheck.remainder.presentation.login.AuthorizationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_authorization" >
+        <action
+            android:id="@+id/action_authorizationFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_authorizationFragment_to_scheduleMainFragment"
+            app:destination="@id/scheduleMainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/navigation_global" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.svyatocheck.remainder.presentation.login.RegistrationFragment"
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragment_to_scheduleMainFragment"
+            app:destination="@id/scheduleMainFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 </navigation>

@@ -6,7 +6,18 @@
     <string name="string_send_button_title">Send.</string>
     <string name="string_popup_fragment">Return to previous fragment</string>
     <string name="string_go_to_recorder_fragment">Go to recorder fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_refresh">Update Page</string>
+    <string name="string_register_title">Already here!</string>
+    <string name="string_user_name">Name</string>
+    <string name="string_register_description">Just a few steps left</string>
+    <string name="string_email_description">Email</string>
+    <string name="string_password_description">Password</string>
+    <string name="string_register_button_text">Get started</string>
+    <string name="string_authorization_title">Welcome!</string>
+    <string name="string_description_authorization">Save time and boost your productivity using our powerful features</string>
+    <string name="string_email_user">Email</string>
+    <string name="string_password">Password</string>
+    <string name="string_auth_btn">Sign in</string>
+    <string name="string_enter_registration">Registration</string>
 
 </resources>
