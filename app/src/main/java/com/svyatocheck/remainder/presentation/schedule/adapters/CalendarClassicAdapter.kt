@@ -24,6 +24,7 @@ class CalendarClassicAdapter(val listener: onClickListener) :
             notifyDataSetChanged()
         }
 
+    // Update calendar list, when user clicked on card
     fun setSelectedItem(position: Int) {
         previousPosition = selectedPosition
         selectedPosition = position
@@ -40,14 +41,17 @@ class CalendarClassicAdapter(val listener: onClickListener) :
     inner class CalendarViewHolder(private val binding: ListItemCalendarDateBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(calendarDateModel: CalendarWeekDay, position: Int) {
+            // put data to calendar card
             binding.calendarDay.text = calendarDateModel.calendarDay
             binding.calendarDate.text = calendarDateModel.calendarDate
 
+            // do something when user clicked on calendar card
             binding.root.setOnClickListener {
                 setSelectedItem(position)
                 listener.onClick(calendarDateModel, position)
             }
 
+            // choose right color of calendar item
             when (calendarDateModel.isSelected) {
                 true -> {
                     binding.calendarDate.setTextColor(Color.WHITE)
@@ -61,13 +65,13 @@ class CalendarClassicAdapter(val listener: onClickListener) :
                     } else {
                         binding.calendarDate.setTextColor(Color.BLACK)
                     }
-
                     binding.calendarDay.setTextColor(Color.GRAY)
                     binding.linearDayRoot.setBackgroundResource(R.drawable.day_background_default)
                 }
             }
         }
 
+        // Check if it's night mode, to select correct color
         fun isNightMode(context: Context): Boolean {
             val nightModeFlags =
                 context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

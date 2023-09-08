@@ -21,15 +21,18 @@ import org.koin.core.context.GlobalContext
 import org.koin.core.logger.Level
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Dependency Injection with Koin
         if (GlobalContext.getKoinApplicationOrNull() == null) {
             GlobalContext.startKoin {
                 androidLogger(Level.DEBUG)
                 androidContext(this@MainActivity.applicationContext)
-                // schedule fragment from bottom bar
+
+                // Schedule Tasks Fragment
                 modules(
                     listOf(
                         scheduleWeekPresentationModule,
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
+                // Edit tasks (Recorder) Fragment
                 modules(
                     listOf(
                         recorderPresentationModule,
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
+                // Authorization Fragment
                 modules(
                     listOf(
                         authorizationPresentationModule,
@@ -54,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
+                // Registration Fragment
                 modules(
                     listOf(
                         registrationPresentationModule,
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
 
+                // Global dependencies
                 modules(
                     listOf(
                         appModule

@@ -17,16 +17,14 @@ import com.svyatocheck.remainder.domain.repository.IScheduleRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
+// Schedule
 val scheduleWeekDataModule = module {
-
     single<IScheduleRemote> {
         ScheduleRemoteImpl()
     }
-
     single {
         RemoteToLocalTasks()
     }
-
     single<IScheduleRepository> {
         ScheduleRepositoryImpl(
             remoteStorage = get(), sharedPrefSettings = get(), remoteToLocalTasks = get()
@@ -34,12 +32,11 @@ val scheduleWeekDataModule = module {
     }
 }
 
+// Recorder
 val recorderDataModule = module {
-
     single<IRecorderRemote> {
         RecorderRemoteImpl()
     }
-
     single<IRecorderRepository> {
         RecorderRepositoryImpl(
             networking = get(),
@@ -48,24 +45,24 @@ val recorderDataModule = module {
     }
 }
 
+// Authorization
 val authorizationDataModule = module {
-
     single<ILoginRemote> {
         LoginRemoteImpl()
     }
-
     single<IAuthorizationRepository> {
         AuthorizationRepositoryImpl(networking = get(), sharedPrefSettings = get())
     }
 }
 
+// Registration
 val registrationDataModule = module {
-
     single<ILoginRemote> {
         LoginRemoteImpl()
     }
 }
 
+// Global
 val appModule = module {
     single<SharedPrefSettings> {
         SharedPrefSettings(androidApplication().applicationContext)

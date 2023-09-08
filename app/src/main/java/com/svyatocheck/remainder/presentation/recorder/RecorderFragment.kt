@@ -9,9 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.R
 import com.svyatocheck.remainder.databinding.FragmentEditTaskBinding
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.domain.usecases.SendAudioToRemoteUseCase
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,9 +14,10 @@ import kotlinx.coroutines.withContext
 
 
 class RecorderViewModel(
-    private val audioSender : SendAudioToRemoteUseCase
+    private val audioSender: SendAudioToRemoteUseCase
 ) : ViewModel() {
 
+    // networking statuses
     private val _networkingStatus = MutableLiveData<RequestStateStatus>()
     var networkingStatus: LiveData<RequestStateStatus> = _networkingStatus
 

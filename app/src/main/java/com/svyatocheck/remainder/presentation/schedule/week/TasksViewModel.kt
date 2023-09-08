@@ -3,9 +3,9 @@ package com.svyatocheck.remainder.presentation.schedule.week
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 
-class CalendarViewModel() : ViewModel() {
+class TasksViewModel() : ViewModel() {
 
     private val _dailyTasks: MutableLiveData<List<ScheduleItem>> = MutableLiveData()
     val dailyTasks: LiveData<List<ScheduleItem>> = _dailyTasks

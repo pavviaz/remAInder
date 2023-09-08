@@ -2,7 +2,7 @@ package com.svyatocheck.remainder.data.storage.remote.login
 
 import com.svyatocheck.remainder.data.storage.models.login.AuthResponseObject
 import com.svyatocheck.remainder.data.storage.models.login.IdResponse
-import com.svyatocheck.remainder.data.storage.models.login.RegUser
+import com.svyatocheck.remainder.data.storage.models.login.RegUserObject
 import com.svyatocheck.remainder.data.storage.models.login.RegisterResponseObject
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -24,6 +24,6 @@ interface LoginRemoteApiService {
 
     @POST("/api_service/auth/register")
     suspend fun register(
-        @Body user: RegUser,
+        @Body user: RegUserObject,
     ): RegisterResponseObject?
 }

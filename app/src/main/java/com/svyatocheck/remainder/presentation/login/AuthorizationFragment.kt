@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.R
 import com.svyatocheck.remainder.databinding.FragmentAuthorizationBinding
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthorizationFragment : Fragment(R.layout.fragment_authorization) {

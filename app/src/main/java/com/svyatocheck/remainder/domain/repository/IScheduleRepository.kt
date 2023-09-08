@@ -1,6 +1,6 @@
 package com.svyatocheck.remainder.domain.repository
 
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 import java.util.Date
 
 interface IScheduleRepository {

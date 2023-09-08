@@ -1,4 +1,4 @@
-package com.application.feature_schedule.presentation.utills
+package com.svyatocheck.remainder.presentation.schedule.utills
 
 enum class RequestStateStatus {
     ERROR,

@@ -1,9 +1,9 @@
 package com.svyatocheck.remainder.data.storage.remote.login
 
 import com.svyatocheck.remainder.data.storage.models.login.AuthResponseObject
-import com.svyatocheck.remainder.data.storage.models.login.AuthUser
+import com.svyatocheck.remainder.data.storage.models.login.AuthUserObject
 import com.svyatocheck.remainder.data.storage.models.login.IdResponse
-import com.svyatocheck.remainder.data.storage.models.login.RegUser
+import com.svyatocheck.remainder.data.storage.models.login.RegUserObject
 import com.svyatocheck.remainder.data.storage.models.login.RegisterResponseObject
 import com.svyatocheck.remainder.data.storage.remote.RetrofitApiProvider
 
@@ -13,11 +13,11 @@ class LoginRemoteImpl : ILoginRemote {
         LoginRemoteApiService::class.java
     )
 
-    override suspend fun authUser(user : AuthUser): AuthResponseObject? {
+    override suspend fun authUser(user : AuthUserObject): AuthResponseObject? {
         return retrofit.auth(user.username, user.password)
     }
 
-    override suspend fun registerUser(user: RegUser): RegisterResponseObject? {
+    override suspend fun registerUser(user: RegUserObject): RegisterResponseObject? {
         return retrofit.register(user)
     }
 

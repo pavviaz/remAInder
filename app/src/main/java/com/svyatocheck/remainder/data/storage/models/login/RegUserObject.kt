@@ -2,7 +2,7 @@ package com.svyatocheck.remainder.data.storage.models.login
 
 import com.google.gson.annotations.SerializedName
 
-data class RegUser(
+data class RegUserObject(
     @SerializedName("email") val email : String,
     @SerializedName("password") val password : String,
     @SerializedName("is_active") val active : Boolean = true,

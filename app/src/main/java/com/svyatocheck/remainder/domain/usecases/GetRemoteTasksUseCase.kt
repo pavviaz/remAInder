@@ -1,7 +1,7 @@
 package com.svyatocheck.remainder.domain.usecases
 
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 import com.svyatocheck.remainder.domain.repository.IScheduleRepository
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
 import java.util.Date
 
 class GetRemoteTasksUseCase(private val repository: IScheduleRepository) {

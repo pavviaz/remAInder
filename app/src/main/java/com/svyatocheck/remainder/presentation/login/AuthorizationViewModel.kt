@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.domain.usecases.AuthorizationUseCase
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

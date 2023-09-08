@@ -6,12 +6,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
 import com.svyatocheck.remainder.R
 import com.svyatocheck.remainder.databinding.FragmentRegistrationBinding
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegistrationFragment : Fragment(R.layout.fragment_registration) {
+
     // ui binding
     private val binding by viewBinding(FragmentRegistrationBinding::bind)
 

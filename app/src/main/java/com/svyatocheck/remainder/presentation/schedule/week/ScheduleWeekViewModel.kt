@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import com.svyatocheck.remainder.domain.usecases.GetRemoteTasksUseCase
 import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class ScheduleWeekViewModel(
     private val _scheduleList = MutableLiveData<List<ScheduleItem>>()
     val scheduleList: LiveData<List<ScheduleItem>> = _scheduleList
 
-    // status
+    // status of networking
     private val _scheduleLoadingStatus = MutableLiveData<RequestStateStatus>()
     var scheduleLoadingStatus: LiveData<RequestStateStatus> = _scheduleLoadingStatus
 
@@ -41,6 +41,9 @@ class ScheduleWeekViewModel(
         initCalendarRange()
     }
 
+    /*
+        Get Range of Dates (30 days before and after today)
+     */
     private fun initCalendarRange() {
         val calendarList = ArrayList<CalendarWeekDay>()
 
@@ -68,10 +71,13 @@ class ScheduleWeekViewModel(
         _calendarWeekDay.value = calendarList
     }
 
+    /*
+        Load Schedule for selected date
+     */
     fun loadSchedule(position: Int) {
         val handler = CoroutineExceptionHandler { _, exception ->
             println("CoroutineExceptionHandler got $exception")
-            // show message about error
+            // do something when error is appeared
             _scheduleLoadingStatus.value = RequestStateStatus.ERROR
         }
 
@@ -84,10 +90,6 @@ class ScheduleWeekViewModel(
             } ?: emptyList()
             _scheduleLoadingStatus.value = RequestStateStatus.DONE
         }
-    }
-
-    fun resetAction() {
-        initCalendarRange()
     }
 
     fun setSelectedPosition(position: Int) {

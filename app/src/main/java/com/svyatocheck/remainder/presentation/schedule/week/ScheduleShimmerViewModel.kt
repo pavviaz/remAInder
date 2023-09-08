@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+/*
+    ViewModel to show loading animations in available Fragments of ViewPager2
+ */
 class ScheduleShimmerViewModel : ViewModel() {
 
     private val _flag = MutableLiveData<Boolean>()

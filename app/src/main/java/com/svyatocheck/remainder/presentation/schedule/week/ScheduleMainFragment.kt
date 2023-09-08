@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.application.feature_schedule.presentation.utills.RequestStateStatus
+import com.svyatocheck.remainder.presentation.schedule.utills.RequestStateStatus
 import com.svyatocheck.remainder.R
 import com.svyatocheck.remainder.databinding.FragmentScheduleMainBinding
 import com.svyatocheck.remainder.presentation.models.CalendarWeekDay
@@ -22,14 +21,6 @@ import com.svyatocheck.remainder.presentation.recorder.REQUEST_PERMISSION_CODE
 import com.svyatocheck.remainder.presentation.schedule.adapters.CalendarClassicAdapter
 import com.svyatocheck.remainder.presentation.schedule.adapters.SchedulePagerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-fun Fragment.setupOnBackPressedCallback(block: () -> Unit) {
-    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = block.invoke()
-        }
-    )
-}
 
 class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
 
@@ -43,7 +34,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
     private val shimmerModel: ScheduleShimmerViewModel by viewModel()
 
     // send schedule to pager
-    private val calendarViewModel: CalendarViewModel by viewModel()
+    private val calendarViewModel: TasksViewModel by viewModel()
 
     private var permissions = arrayOf(
         Manifest.permission.RECORD_AUDIO,
@@ -73,6 +64,9 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
         initView()
     }
 
+    /*
+        Check if user gave permissions to record and write audio
+     */
     private fun checkPermissions() {
         val mic = ActivityCompat.checkSelfPermission(
             requireContext(),
@@ -98,6 +92,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             )
         }
 
+        // update data on selected fragment
         binding.swiperefresh.setOnRefreshListener {
             val position = binding.viewPagerScheduleScreen.currentItem
             scheduleViewModel.loadSchedule(position)
@@ -107,6 +102,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
 
     private fun setupViewModels() {
 
+        // receive calendar range and init viewPager for every day
         scheduleViewModel.calendarWeekDay.observe(viewLifecycleOwner) {
             calendarAdapter.list = it
 
@@ -115,6 +111,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             binding.viewPagerScheduleScreen.registerOnPageChangeCallback(pageChangeCallback)
         }
 
+        // show selected date's fragments
         scheduleViewModel.selectedPosition.observe(viewLifecycleOwner) {
             calendarAdapter.setSelectedItem(it)
 
@@ -123,10 +120,12 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
             calendarViewModel.setPosition(it)
         }
 
+        // send tasks to selected fragment
         scheduleViewModel.scheduleList.observe(viewLifecycleOwner) {
             calendarViewModel.sendTasks(it)
         }
 
+        // networking statuses
         scheduleViewModel.scheduleLoadingStatus.observe(viewLifecycleOwner) {
             when (it) {
                 RequestStateStatus.DONE -> {
@@ -166,6 +165,7 @@ class ScheduleMainFragment : Fragment(R.layout.fragment_schedule_main) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+    // Show animations of loading
     private fun showSkeletonsProgress() {
         shimmerModel.sendMessage(true)
     }

@@ -4,10 +4,11 @@ import com.svyatocheck.remainder.core.SharedPrefSettings
 import com.svyatocheck.remainder.data.mappers.RemoteToLocalTasks
 import com.svyatocheck.remainder.data.storage.models.schedule.ScheduleDataParamModel
 import com.svyatocheck.remainder.data.storage.remote.schedule.IScheduleRemote
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 import com.svyatocheck.remainder.domain.repository.IScheduleRepository
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 
 class ScheduleRepositoryImpl(
@@ -17,7 +18,7 @@ class ScheduleRepositoryImpl(
 ) : IScheduleRepository {
 
     override suspend fun getGroupSchedule(date: Date): List<ScheduleItem> {
-        val formatted = SimpleDateFormat("yyyy-MM-dd").format(date)
+        val formatted = SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY).format(date)
         return try {
             val repository = remoteStorage.getRemoteSchedule(
                 paramModel = ScheduleDataParamModel(sharedPrefSettings.getID(), formatted)

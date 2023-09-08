@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.svyatocheck.remainder.databinding.ListItemScheduleBinding
-import com.svyatocheck.remainder.presentation.models.ScheduleItem
+import com.svyatocheck.remainder.domain.models.ScheduleItem
 
 class ScheduleListAdapter(
 ) : RecyclerView.Adapter<ScheduleListAdapter.ScheduleItemViewHolder>() {

@@ -1,8 +1,8 @@
 package com.svyatocheck.remainder.data.repository
 
 import com.svyatocheck.remainder.core.SharedPrefSettings
-import com.svyatocheck.remainder.data.storage.models.login.AuthUser
-import com.svyatocheck.remainder.data.storage.models.login.RegUser
+import com.svyatocheck.remainder.data.storage.models.login.AuthUserObject
+import com.svyatocheck.remainder.data.storage.models.login.RegUserObject
 import com.svyatocheck.remainder.data.storage.remote.login.ILoginRemote
 import com.svyatocheck.remainder.domain.repository.IAuthorizationRepository
 
@@ -11,15 +11,16 @@ class AuthorizationRepositoryImpl(
     private val sharedPrefSettings: SharedPrefSettings
 ) : IAuthorizationRepository {
 
-
     override suspend fun launchAuthorization(email: String, password: String): Boolean {
         val response = networking.authUser(
-            AuthUser(
+            AuthUserObject(
                 username = email,
                 password = password
             )
         )
+        // save user's token
         response?.let { sharedPrefSettings.putToken(it.token) } ?: return false
+        // save user's id (temporary)
         if (!getUserId(response.token)) return false
         return true
     }
@@ -30,14 +31,16 @@ class AuthorizationRepositoryImpl(
         password: String
     ): Boolean {
         val response = networking.registerUser(
-            RegUser(
+            RegUserObject(
                 email = email,
                 password = password,
                 name = name
             )
         ) ?: return false
 
+        // save user's id
         sharedPrefSettings.putID(response.id)
+        // auth user
         val auth = launchAuthorization(email, password)
         if (auth)
             return true
