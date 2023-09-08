@@ -7,7 +7,6 @@ from settings import api_settings
 
 redis = Redis.from_url(api_settings.REDIS_CONNECT, max_connections=api_settings.REDIS_MAX)
 
-
 # def redis_cache(ttl: int, key):
 #     def dec_wrapper(func):
 #         async def wrapper(*args, **kwargs):
@@ -19,7 +18,7 @@ redis = Redis.from_url(api_settings.REDIS_CONNECT, max_connections=api_settings.
 #                 value = await func(*args, **kwargs)
 #                 if value:
 #                     await redis.set(key, pickle.dumps(value))
-# #                     await redis.expire(key, ttl)
+#                     await redis.expire(key, ttl)
 #
 #             return value
 #         return wrapper

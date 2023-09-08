@@ -39,7 +39,6 @@ class TaskInterface(ModelInterface):
         return task_ids
 
     async def _update(self, task_to_update: TaskUpdate) -> Task:
-        print(task_to_update)
         stmt = update(Task).where(Task.id == task_to_update.id)\
             .values(**task_to_update.dict(exclude_unset=True, exclude={'id'})).returning(Task)
 
