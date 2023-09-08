@@ -4,7 +4,6 @@ from typing import List
 import os
 import shutil
 
-from dotenv import load_dotenv
 import pydub
 
 from loading_audio import load_audio, load_binary_audio
@@ -16,7 +15,10 @@ TMP_DIR = "tmp_audios"
 def asr(audio_files, token):
     url = "https://asr.nanosemantics.ai/asr"
 
-    files = [("audio_blob", (el, open(el, "rb"), "audio/wav")) for el in audio_files]
+    # test local version
+    # files = [("audio_blob", (el, open(el, "rb"), "audio/wav")) for el in audio_files]
+
+    files = [("audio_blob", (str(idx), el, "audio/wav")) for idx, el in enumerate(audio_files)]
 
     headers = {
         "Authorization": "Basic {}".format(token),
@@ -57,6 +59,12 @@ def create_tmp_files(audios: List[pydub.AudioSegment]):
 
 
 def recognize_audio(audios):
+    response = asr(audios, os.getenv("NANOSEMANTICS_ASR_TOKEN"))
+
+    return [el["response"][0]["text"] for el in response["r"]]
+
+
+def test_recognize_audio(audios):
     tmp_dir = TMP_DIR
     os.makedirs(TMP_DIR, exist_ok=False)
 
@@ -68,12 +76,12 @@ def recognize_audio(audios):
     response = asr(tmp_audios, os.getenv("NANOSEMANTICS_ASR_TOKEN"))
 
     shutil.rmtree(tmp_dir)
+    # print(response)
     return [el["response"][0]["text"] for el in response["r"]]
 
 
-load_dotenv()
 if __name__ == "__main__":
-    r = recognize_audio(
-        [load_audio("test_audios/test2.wav"), load_audio("test_audios/test3.wav")]
+    r = test_recognize_audio(
+        [load_audio("test_audios/test4.wav"), load_audio("test_audios/test3.wav")]
     )
     print(r)
