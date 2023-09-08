@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./dbdump:/dbdump/
+    ports:
+      - '5432:5432'
+  redis:
+    image: redis:latest
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_cache:/data
+    ports:
+      - '6379:6379'
+  api_service:
+    container_name: api_service
+    image: remainder:latest
+    build:
+      context: ..
+      dockerfile: api_service/Dockerfile
+    volumes:
+      - ./:/code
+    command: bash -c 'python /code/start.py'
+    ports:
+      - '7000:7001'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    environment:
+      - PYTHON=/code:/base
+      - PROJECT_DIRECTORY=./api_service/
+      - URL=/api_service
+      - DEBUG=True
+      - POSTGRES_CONNECT=${POSTGRES_CONNECT}
+      - MAX_OVER=100
+      - POOL=50
+      - REDIS_CONNECT=${REDIS_CONNECT}
+      - SECURITY_KEY=${SECURITY_KEY}
+volumes:
+  postgresql_data:
+  redis_cache:
+
