@@ -25,9 +25,8 @@ class AuthorizationFragment : Fragment(R.layout.fragment_authorization) {
     }
 
     private fun initView() {
-        binding.tvEmail.editText?.setText("testtt@gmail.com")
-        binding.tvPwd.editText?.setText("123456")
-
+//        binding.tvEmail.editText?.setText("testtt@gmail.com")
+//        binding.tvPwd.editText?.setText("123456")
         binding.tvSignIn.setOnClickListener {
             with(binding) {
                 val email = tvEmail.editText?.text.toString()
@@ -49,11 +48,16 @@ class AuthorizationFragment : Fragment(R.layout.fragment_authorization) {
                 }
 
                 RequestStateStatus.LOADING -> {
-
+                    binding.loadingPlaceholder.visibility = View.VISIBLE
+                    binding.tvSignIn.isEnabled = false
+                    binding.tvRegistration.isEnabled = false
                 }
 
                 else -> {
                     Toast.makeText(requireContext(), "Something is wrong...", Toast.LENGTH_SHORT).show()
+                    binding.loadingPlaceholder.visibility = View.INVISIBLE
+                    binding.tvSignIn.isEnabled = true
+                    binding.tvRegistration.isEnabled = true
                 }
             }
         }
