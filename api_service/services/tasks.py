@@ -1,3 +1,4 @@
+import uuid
 from datetime import date as date_dt
 from typing import Type
 from uuid import UUID
@@ -13,6 +14,10 @@ from schemas.tasks import TaskModel, TaskRead, TaskCreate
 from schemas.tasks import TaskId
 
 from schemas.tasks import TaskUpdate
+
+from redis_cache import redis
+
+
 # import cachetools
 # from redis_cache import redis
 
@@ -34,6 +39,7 @@ class TaskService(TaskInterface):
         embedding = None  #TODO вызов расчета embedding
 
         task_id = await self._create(TaskModel(**task_to_create.dict()))
+        print(task_id)
         if not task_id:
             return None
         return TaskId(id=task_id)
@@ -53,6 +59,7 @@ class TaskService(TaskInterface):
         return model.from_orm(task)
 
     async def upload_audio(self, user_id, file: UploadFile):
-        ... # TODO отправка таски на расчет моделей
-        print(file.filename)
-        return {'task_id': 'task_celery_id', 'name': file.filename, 'user_id': user_id}
+
+        # await redis.set(f'asr:{uuid.uuid4()}', {'user_id': user_id, 'req': file.file.read()})
+
+        return {'status': True}
