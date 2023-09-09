@@ -12,15 +12,12 @@ from fastapi.exceptions import HTTPException
 from models.user import User
 from services.auth_backend import current_active_user
 
-# from redis_cache import redis_cache
-
 api_router = APIRouter(tags=["tasks"], prefix='/task')
 
 
 @api_router.get("/{task_id}")
-# @redis_cache(60 * 60 * 24 * 7, )
 async def get_task(task_id: UUID = Path(),
-                   # user: User = Depends(current_active_user),
+                   user: User = Depends(current_active_user),
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     return await service.get(task_id, TaskRead)
@@ -28,7 +25,7 @@ async def get_task(task_id: UUID = Path(),
 
 @api_router.post("/get_tasks")
 async def get_tasks(date: date_dt, user_id: UUID,
-                    # user: User = Depends(current_active_user),
+                    user: User = Depends(current_active_user),
                     session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     return await service.get_by_date_and_user(user_id, date, TaskRead)
@@ -36,7 +33,7 @@ async def get_tasks(date: date_dt, user_id: UUID,
 
 @api_router.put("/")
 async def put_task(task: TaskUpdate,
-                   # user: User = Depends(current_active_user),
+                   user: User = Depends(current_active_user),
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     return await service.update(task, TaskRead)
@@ -44,7 +41,7 @@ async def put_task(task: TaskUpdate,
 
 @api_router.post("/")
 async def post_task(task: TaskCreate,
-                    # user: User = Depends(current_active_user),
+                    user: User = Depends(current_active_user),
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     result = await service.create(task)
@@ -53,7 +50,7 @@ async def post_task(task: TaskCreate,
 
 @api_router.delete("/{task_id}")
 async def delete_task(task_id: UUID = Path(),
-                      # user: User = Depends(current_active_user),
+                      user: User = Depends(current_active_user),
                       session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     status = await service.delete(task_id)
@@ -62,7 +59,7 @@ async def delete_task(task_id: UUID = Path(),
 
 @api_router.post("/upload_audio")
 async def upload_audio(file: UploadFile, user_id: UUID,
-                       # user: User = Depends(current_active_user),
+                       user: User = Depends(current_active_user),
                        session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     return await service.upload_audio(user_id, file)
