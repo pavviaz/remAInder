@@ -1,3 +1,5 @@
+import pickle
+import uuid
 from datetime import date as date_dt
 from typing import Type
 from uuid import UUID
@@ -7,12 +9,16 @@ from asyncache import cached
 from fastapi import UploadFile
 from pydantic import parse_obj_as
 
-from interface.task_interface import TaskInterface
+from base_interface.task_interface import TaskInterface
 from schemas.tasks import TaskModel, TaskRead, TaskCreate
 
 from schemas.tasks import TaskId
 
 from schemas.tasks import TaskUpdate
+
+from redis_cache import redis
+
+
 # import cachetools
 # from redis_cache import redis
 
@@ -42,7 +48,6 @@ class TaskService(TaskInterface):
         embeddings = None  # TODO вызов расчета embeddings для множества моделей
 
         tasks_to_create = parse_obj_as(list[TaskModel], tasks_to_create)
-
         task_id = await self._create_all(tasks_to_create)
         return task_id
 
@@ -53,6 +58,6 @@ class TaskService(TaskInterface):
         return model.from_orm(task)
 
     async def upload_audio(self, user_id, file: UploadFile):
-        ... # TODO отправка таски на расчет моделей
-        print(file.filename)
-        return {'task_id': 'task_celery_id', 'name': file.filename, 'user_id': user_id}
+        await redis.set(f'asr:{uuid.uuid4()}', pickle.dumps({'user_id': user_id, 'req': file.file.read()}))
+
+        return {'status': True}

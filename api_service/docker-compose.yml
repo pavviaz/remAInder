@@ -20,7 +20,7 @@ services:
     volumes:
       - redis_cache:/data
     ports:
-      - '5000:5001'
+      - '6379:6379'
   api_service:
     container_name: api_service
     image: remainder:latest

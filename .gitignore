@@ -397,12 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# VENV AND ENV
-
-*.env
-/venv/
-*.venv
-*.idea
-/idea/
-=======
 .env
+test_audios/
+test.*

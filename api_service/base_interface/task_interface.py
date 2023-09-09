@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy import select, insert, update, delete
 
-from interface.interface import ModelInterface
+from base_interface.base_interface import ModelInterface
 from models.tasks import Task
 from schemas.tasks import TaskModel, TaskRead
 
@@ -18,11 +18,11 @@ class TaskInterface(ModelInterface):
         return task
 
     async def _get_by_date_and_user(self, user_id: UUID, date: date_dt = None) -> list[Task]:
-        stmt = select(Task).where(Task.user_id == user_id)
+        stmt = select(Task).where(Task.user_id == str(user_id))
         if date:
             start = datetime.combine(date=date, time=datetime.min.time())
             end = datetime.combine(date=date, time=datetime.max.time())
-            stmt.where(Task.datetime.between(start, end))
+            stmt = stmt.where(Task.datetime.between(start, end))
         tasks = (await self.execute(stmt)).scalars().all()
         return tasks
 
@@ -39,7 +39,6 @@ class TaskInterface(ModelInterface):
         return task_ids
 
     async def _update(self, task_to_update: TaskUpdate) -> Task:
-        print(task_to_update)
         stmt = update(Task).where(Task.id == task_to_update.id)\
             .values(**task_to_update.dict(exclude_unset=True, exclude={'id'})).returning(Task)
 

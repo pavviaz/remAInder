@@ -5,7 +5,7 @@ from fastapi import APIRouter, Path, Depends, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from postgres import get_async_session
-from schemas.tasks import TaskRead, TaskCreate, TaskUpdate
+from schemas.tasks import TaskCreate, TaskUpdate, TaskModel
 from services.tasks import TaskService
 
 from fastapi.exceptions import HTTPException
@@ -20,7 +20,7 @@ async def get_task(task_id: UUID = Path(),
                    user: User = Depends(current_active_user),
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
-    return await service.get(task_id, TaskRead)
+    return await service.get(task_id, TaskModel)
 
 
 @api_router.post("/get_tasks")
@@ -28,7 +28,7 @@ async def get_tasks(date: date_dt, user_id: UUID,
                     user: User = Depends(current_active_user),
                     session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
-    return await service.get_by_date_and_user(user_id, date, TaskRead)
+    return await service.get_by_date_and_user(user_id, date, TaskModel)
 
 
 @api_router.put("/")
@@ -36,7 +36,7 @@ async def put_task(task: TaskUpdate,
                    user: User = Depends(current_active_user),
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
-    return await service.update(task, TaskRead)
+    return await service.update(task, TaskModel)
 
 
 @api_router.post("/")
@@ -45,7 +45,7 @@ async def post_task(task: TaskCreate,
                    session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     result = await service.create(task)
-    return result if result else HTTPException(status_code=500)
+    return result if result else {}
 
 
 @api_router.delete("/{task_id}")
@@ -54,7 +54,7 @@ async def delete_task(task_id: UUID = Path(),
                       session: AsyncSession = Depends(get_async_session)):
     service = TaskService(session)
     status = await service.delete(task_id)
-    return {'status': status} if status else HTTPException(status_code=500)
+    return {'status': status} if status else False
 
 
 @api_router.post("/upload_audio")
