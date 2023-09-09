@@ -53,6 +53,8 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                         "Ошибка во время регистрации!",
                         Toast.LENGTH_SHORT
                     ).show()
+                    binding.loadingPlaceholder.visibility = View.GONE
+                    binding.tvRegistration.isEnabled = true
                 }
             }
         }

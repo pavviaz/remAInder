@@ -40,12 +40,17 @@ class AuthorizationRepositoryImpl(
 
         // save user's id
         sharedPrefSettings.putID(response.id)
-        // auth user
-        val auth = launchAuthorization(email, password)
-        if (auth)
-            return true
 
-        return false
+        // auth user
+        val auth = networking.authUser(
+            AuthUserObject(
+                username = email,
+                password = password
+            )
+        )
+        // save user's token
+        auth?.let { sharedPrefSettings.putToken(it.token) } ?: return false
+        return true
     }
 
     override suspend fun getUserId(
