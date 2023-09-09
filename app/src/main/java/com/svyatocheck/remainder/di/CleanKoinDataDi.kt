@@ -5,6 +5,7 @@ import com.svyatocheck.remainder.data.mappers.RemoteToLocalTasks
 import com.svyatocheck.remainder.data.repository.AuthorizationRepositoryImpl
 import com.svyatocheck.remainder.data.repository.RecorderRepositoryImpl
 import com.svyatocheck.remainder.data.repository.ScheduleRepositoryImpl
+import com.svyatocheck.remainder.data.storage.remote.BaseInterceptor
 import com.svyatocheck.remainder.data.storage.remote.login.ILoginRemote
 import com.svyatocheck.remainder.data.storage.remote.login.LoginRemoteImpl
 import com.svyatocheck.remainder.data.storage.remote.recorder.IRecorderRemote
@@ -20,7 +21,7 @@ import org.koin.dsl.module
 // Schedule
 val scheduleWeekDataModule = module {
     single<IScheduleRemote> {
-        ScheduleRemoteImpl()
+        ScheduleRemoteImpl(get())
     }
     single {
         RemoteToLocalTasks()
@@ -35,7 +36,7 @@ val scheduleWeekDataModule = module {
 // Recorder
 val recorderDataModule = module {
     single<IRecorderRemote> {
-        RecorderRemoteImpl()
+        RecorderRemoteImpl(get())
     }
     single<IRecorderRepository> {
         RecorderRepositoryImpl(
@@ -66,5 +67,9 @@ val registrationDataModule = module {
 val appModule = module {
     single<SharedPrefSettings> {
         SharedPrefSettings(androidApplication().applicationContext)
+    }
+
+    single {
+        BaseInterceptor.getInstance(sharedPrefSettings = get())
     }
 }

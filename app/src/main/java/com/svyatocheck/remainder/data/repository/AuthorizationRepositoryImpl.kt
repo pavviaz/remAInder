@@ -21,7 +21,7 @@ class AuthorizationRepositoryImpl(
         // save user's token
         response?.let { sharedPrefSettings.putToken(it.token) } ?: return false
         // save user's id (temporary)
-        if (!getUserId(response.token)) return false
+        if (!getUserId("${response.type.capitalize()} ${response.token}")) return false
         return true
     }
 

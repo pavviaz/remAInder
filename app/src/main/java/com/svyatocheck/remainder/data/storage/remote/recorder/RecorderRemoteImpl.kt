@@ -1,5 +1,6 @@
 package com.svyatocheck.remainder.data.storage.remote.recorder
 
+import com.svyatocheck.remainder.core.SharedPrefSettings
 import com.svyatocheck.remainder.data.storage.models.login.NetworkResponse
 import com.svyatocheck.remainder.data.storage.remote.RetrofitApiProvider
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -8,11 +9,14 @@ import okhttp3.RequestBody
 import java.io.File
 
 
-class RecorderRemoteImpl : IRecorderRemote {
+class RecorderRemoteImpl(
+    sharedPrefSettings: SharedPrefSettings
+) : IRecorderRemote {
 
-    private val retrofit: RecorderRemoteApiService = RetrofitApiProvider.createService(
-        RecorderRemoteApiService::class.java
-    )
+    private val retrofit: RecorderRemoteApiService =
+        RetrofitApiProvider(sharedPrefSettings).createService(
+            RecorderRemoteApiService::class.java
+        )
 
     override suspend fun sendRecord(id: String, audioPath: String?): NetworkResponse? {
         // Map is used to multipart the file using okhttp3.RequestBody

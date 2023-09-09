@@ -1,5 +1,6 @@
 package com.svyatocheck.remainder.data.storage.remote.login
 
+import com.svyatocheck.remainder.data.storage.models.GetUserIdQuery
 import com.svyatocheck.remainder.data.storage.models.login.AuthResponseObject
 import com.svyatocheck.remainder.data.storage.models.login.AuthUserObject
 import com.svyatocheck.remainder.data.storage.models.login.RegUserObject
@@ -11,5 +12,5 @@ interface ILoginRemote {
 
     suspend fun registerUser(user : RegUserObject) : RegisterResponseObject?
 
-    suspend fun getUserId(token : String) : RegisterResponseObject?
+    suspend fun getUserId(token : String) : GetUserIdQuery?
 }

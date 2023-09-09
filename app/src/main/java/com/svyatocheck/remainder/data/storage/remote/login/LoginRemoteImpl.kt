@@ -1,15 +1,15 @@
 package com.svyatocheck.remainder.data.storage.remote.login
 
+import com.svyatocheck.remainder.data.storage.models.GetUserIdQuery
 import com.svyatocheck.remainder.data.storage.models.login.AuthResponseObject
 import com.svyatocheck.remainder.data.storage.models.login.AuthUserObject
-import com.svyatocheck.remainder.data.storage.models.login.IdResponse
 import com.svyatocheck.remainder.data.storage.models.login.RegUserObject
 import com.svyatocheck.remainder.data.storage.models.login.RegisterResponseObject
-import com.svyatocheck.remainder.data.storage.remote.RetrofitApiProvider
+import com.svyatocheck.remainder.data.storage.remote.RetrofitApiProviderClassic
 
 class LoginRemoteImpl : ILoginRemote {
 
-    private val retrofit: LoginRemoteApiService = RetrofitApiProvider.createService(
+    private val retrofit: LoginRemoteApiService = RetrofitApiProviderClassic.createService(
         LoginRemoteApiService::class.java
     )
 
@@ -21,8 +21,8 @@ class LoginRemoteImpl : ILoginRemote {
         return retrofit.register(user)
     }
 
-    override suspend fun getUserId(token: String): RegisterResponseObject? {
-        return retrofit.getUserId(IdResponse( token))
+    override suspend fun getUserId(token: String): GetUserIdQuery? {
+        return retrofit.getUserId(token)
     }
 
 }
