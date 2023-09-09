@@ -30,3 +30,14 @@ remAInder - это интеллектуальный планировщик за�
    DEFAULT_API_IP=http://51.250.81.200:7000  # API
    REDIS_HOST=redis://51.250.81.200:6379/0   # REDIS
    ```
+3) Запустить docker-compose для обоих сервисов:
+   ```
+   docker-compose build
+   docker-compose up
+   ```
+   
+   ```
+   cd api_service
+   docker-compose build
+   docker-compose up
+   ```
